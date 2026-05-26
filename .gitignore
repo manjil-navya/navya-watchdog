@@ -7,3 +7,4 @@ debug_error.png
 debug_failure.png
 cron_log.log
 start.sh
+setup_cron.sh
