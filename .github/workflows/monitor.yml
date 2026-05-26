@@ -1,0 +1,57 @@
+name: NEPSE Market Monitor
+
+on:
+  schedule:
+    # Runs every 5 minutes, 11:00–15:15 NPT
+    # NPT = UTC+5:45, so 11:00 NPT = 05:15 UTC, 15:15 NPT = 09:30 UTC
+    # Cron doesn't support 5:45 offset exactly, so we bracket it safely:
+    # Run 05:15–09:30 UTC = covers 10:45–15:00 NPT window
+    - cron: '15,20,25,30,35,40,45,50,55 5 * * 1-5'   # 05:15–05:55 UTC
+    - cron: '0,5,10,15,20,25,30 6 * * 1-5'            # 06:00–06:30 UTC
+    - cron: '0,5,10,15,20,25,30,35,40,45,50,55 7 * * 1-5'  # 07:xx UTC
+    - cron: '0,5,10,15,20,25,30,35,40,45,50,55 8 * * 1-5'  # 08:xx UTC
+    - cron: '0,5,10,15,20,25,30 9 * * 1-5'            # 09:00–09:30 UTC
+  workflow_dispatch:  # allow manual trigger from GitHub UI
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # needed to commit log files back
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          # Fetch the latest so we get the current log files
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install playwright python-dotenv pytz
+          playwright install chromium
+          playwright install-deps chromium
+
+      - name: Run market monitor
+        env:
+          NAVYA_EMAIL:    ${{ secrets.NAVYA_EMAIL }}
+          NAVYA_PASS:     ${{ secrets.NAVYA_PASS }}
+          GMAIL_USER:     ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASS: ${{ secrets.GMAIL_APP_PASS }}
+          ALERT_RECEIVER: ${{ secrets.ALERT_RECEIVER }}
+        run: python monitor.py
+
+      - name: Commit updated log files
+        run: |
+          git config user.name  "navya-watchdog[bot]"
+          git config user.email "watchdog@navya.bot"
+          git add monitor_log.json fail_count.txt
+          # Only commit if something actually changed
+          git diff --staged --quiet || git commit -m "chore: monitor run $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push

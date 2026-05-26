@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Market Monitor | Navya Advisors</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Hanken+Grotesk:wght@600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "on-tertiary-container": "#a90d1e",
+          "secondary": "#8dcdff",
+          "inverse-on-surface": "#2d3137",
+          "background": "#10141a",
+          "tertiary": "#ffddda",
+          "secondary-container": "#00affe",
+          "tertiary-container": "#ffb6b1",
+          "primary-container": "#00e676",
+          "on-surface-variant": "#bacbb9",
+          "error-container": "#93000a",
+          "error": "#ffb4ab",
+          "surface-bright": "#353940",
+          "outline": "#859585",
+          "surface-dim": "#10141a",
+          "on-error": "#690005",
+          "surface": "#10141a",
+          "primary-fixed": "#62ff96",
+          "surface-container-lowest": "#0a0e14",
+          "on-primary-container": "#00612e",
+          "primary": "#75ff9e",
+          "outline-variant": "#3b4a3d",
+          "surface-variant": "#31353c",
+          "surface-container-highest": "#31353c",
+          "surface-container-high": "#262a31",
+          "on-error-container": "#ffdad6",
+          "on-primary": "#003918",
+          "on-secondary": "#00344f",
+          "on-background": "#dfe2eb",
+          "on-secondary-container": "#003f5f",
+          "primary-fixed-dim": "#00e475",
+          "on-surface": "#dfe2eb",
+          "surface-container": "#1c2026",
+          "surface-container-low": "#181c22",
+        },
+        borderRadius: {
+          DEFAULT: "0.125rem",
+          lg: "0.25rem",
+          xl: "0.5rem",
+          full: "0.75rem",
+        },
+        fontFamily: {
+          "title-md": ["Inter"],
+          "headline-lg": ["Hanken Grotesk"],
+          "label-sm": ["Inter"],
+          "display-lg": ["Hanken Grotesk"],
+          "body-md": ["Inter"],
+          "data-mono": ["JetBrains Mono"],
+        },
+        fontSize: {
+          "title-md": ["18px", { lineHeight: "24px", fontWeight: "600" }],
+          "headline-lg": ["32px", { lineHeight: "40px", fontWeight: "600" }],
+          "label-sm": ["11px", { lineHeight: "16px", fontWeight: "700" }],
+          "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }],
+          "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+          "data-mono": ["13px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "500" }],
+        },
+      },
+    },
+  };
+</script>
+<style>
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+  .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: #0d1117; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: #30363d; border-radius: 2px; }
+
+  .pulse-glow { animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite; }
+  @keyframes pulse-ring {
+    0%   { transform: scale(0.8); opacity: 0.5; }
+    50%  { transform: scale(1.2); opacity: 0.2; }
+    100% { transform: scale(0.8); opacity: 0.5; }
+  }
+
+  .status-dot-live   { background: #75ff9e; box-shadow: 0 0 8px rgba(117,255,158,0.6); }
+  .status-dot-down   { background: #ff4444; box-shadow: 0 0 8px rgba(255,68,68,0.6); }
+  .status-dot-warning{ background: #ffa500; box-shadow: 0 0 8px rgba(255,165,0,0.6); }
+  .status-dot-closed { background: #666; }
+  .status-dot-alert  { background: #ff4444; box-shadow: 0 0 8px rgba(255,68,68,0.6); }
+
+  .badge-live    { background: rgba(117,255,158,0.12); color: #75ff9e; border: 1px solid rgba(117,255,158,0.25); }
+  .badge-down    { background: rgba(255,68,68,0.12);  color: #ff6b6b; border: 1px solid rgba(255,68,68,0.25); }
+  .badge-warning { background: rgba(255,165,0,0.12); color: #ffa500; border: 1px solid rgba(255,165,0,0.25); }
+  .badge-closed  { background: rgba(102,102,102,0.12); color: #888; border: 1px solid rgba(102,102,102,0.25); }
+  .badge-alert   { background: rgba(255,68,68,0.12); color: #ff6b6b; border: 1px solid rgba(255,68,68,0.25); }
+
+  .row-hover { transition: all 0.18s ease; }
+  .row-hover:hover { background: rgba(141,205,255,0.04); transform: translateX(3px); }
+
+  .fade-in { animation: fadeIn 0.4s ease forwards; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .counter-num { font-variant-numeric: tabular-nums; }
+
+  /* Search highlight */
+  mark { background: rgba(141,205,255,0.25); color: inherit; border-radius: 2px; }
+</style>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased overflow-hidden">
+<div class="h-screen flex flex-col">
+
+  <!-- ── Top Nav ── -->
+  <header class="flex justify-between items-center w-full px-8 h-16 bg-surface border-b border-outline-variant flex-shrink-0">
+    <div class="flex items-center gap-6">
+      <div class="flex items-center gap-3">
+        <div class="bg-secondary-container/20 p-1.5 rounded-lg">
+          <span class="material-symbols-outlined text-secondary text-title-md">analytics</span>
+        </div>
+        <div>
+          <h1 class="text-title-md font-black text-secondary leading-tight">Navya Advisors</h1>
+          <p class="text-[10px] font-label-sm text-on-surface-variant opacity-70 uppercase tracking-tighter">NEPSE Feed Monitor</p>
+        </div>
+      </div>
+      <div class="h-8 w-[1px] bg-outline-variant"></div>
+      <span class="text-title-md font-bold text-on-surface">Market Monitor</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <!-- Search -->
+      <div class="relative flex items-center bg-surface-container-low border border-outline-variant px-3 py-1.5 rounded-lg w-60 focus-within:border-secondary transition-all">
+        <span class="material-symbols-outlined text-on-surface-variant text-lg">search</span>
+        <input id="searchInput" class="bg-transparent border-none text-body-md focus:ring-0 w-full placeholder:text-on-surface-variant/50 ml-2 outline-none" placeholder="Search logs..." type="text"/>
+      </div>
+
+      <!-- Filter buttons -->
+      <div class="flex border border-outline-variant rounded overflow-hidden">
+        <button onclick="setFilter('all')" id="btn-all" class="px-3 py-1 bg-surface-variant text-on-surface text-[11px] font-bold transition-colors">ALL</button>
+        <button onclick="setFilter('failure')" id="btn-failure" class="px-3 py-1 hover:bg-surface-variant text-on-surface-variant text-[11px] font-bold transition-colors">ERROR</button>
+        <button onclick="setFilter('success')" id="btn-success" class="px-3 py-1 hover:bg-surface-variant text-on-surface-variant text-[11px] font-bold transition-colors">OK</button>
+        <button onclick="setFilter('closed')" id="btn-closed" class="px-3 py-1 hover:bg-surface-variant text-on-surface-variant text-[11px] font-bold transition-colors">CLOSED</button>
+      </div>
+
+      <!-- Clock -->
+      <div class="text-data-mono text-[11px] text-on-surface-variant border border-outline-variant px-3 py-1.5 rounded-lg">
+        <span id="clockDisplay">--:--:--</span>
+        <span class="ml-1 text-[9px] opacity-60">NPT</span>
+      </div>
+
+      <!-- Live indicator -->
+      <div class="flex items-center gap-2 px-3 py-1.5 border border-outline-variant rounded-lg">
+        <span class="relative flex h-2 w-2">
+          <span class="pulse-glow absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+        </span>
+        <span class="text-[10px] font-bold text-primary">AUTO-REFRESH</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Main ── -->
+  <main class="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-6 space-y-4">
+    <div id="mainGrid" class="grid grid-cols-12 gap-4 max-w-screen-2xl mx-auto">
+
+      <!-- ── System Status Card ── -->
+      <section class="col-span-12 lg:col-span-4 bg-surface-container-low border border-outline-variant rounded-xl overflow-hidden flex flex-col" style="height:380px;">
+        <div class="p-4 border-b border-outline-variant flex justify-between items-center bg-surface-container/30">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary text-lg">sensors</span>
+            <h2 class="text-label-sm text-on-surface tracking-widest uppercase">System Status</h2>
+          </div>
+          <div id="liveChip" class="flex items-center gap-2">
+            <span class="text-[10px] font-bold text-on-surface-variant">LOADING...</span>
+          </div>
+        </div>
+
+        <div class="flex-1 p-6 flex flex-col justify-center items-center relative overflow-hidden">
+          <!-- big number -->
+          <div class="text-center z-10">
+            <span id="failCountDisplay" class="text-display-lg font-display-lg text-primary leading-none counter-num">—</span>
+            <p class="text-label-sm text-on-surface-variant uppercase mt-2">Critical Failures</p>
+          </div>
+          <!-- status badge -->
+          <div class="mt-6 z-10">
+            <span id="statusBadge" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-widest badge-closed">
+              <span id="statusDot" class="w-1.5 h-1.5 rounded-full status-dot-closed"></span>
+              <span id="statusLabel">Loading...</span>
+            </span>
+          </div>
+          <!-- mini bar chart — last 20 checks -->
+          <div id="miniChart" class="mt-8 w-full flex items-end gap-0.5 h-10 px-2"></div>
+          <div class="w-full flex justify-between mt-1 px-2">
+            <span class="text-[9px] text-on-surface-variant">OLDEST</span>
+            <span class="text-[9px] text-on-surface-variant">NOW</span>
+          </div>
+        </div>
+
+        <div class="p-4 grid grid-cols-3 border-t border-outline-variant gap-4 bg-surface-container/20">
+          <div>
+            <p class="text-[10px] text-on-surface-variant">UPTIME</p>
+            <p id="uptimeDisplay" class="text-title-md font-data-mono text-secondary">—</p>
+          </div>
+          <div>
+            <p class="text-[10px] text-on-surface-variant">SUCCESS</p>
+            <p id="successDisplay" class="text-title-md font-data-mono text-primary">—</p>
+          </div>
+          <div>
+            <p class="text-[10px] text-on-surface-variant">TOTAL</p>
+            <p id="totalDisplay" class="text-title-md font-data-mono text-on-surface">—</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Trading Window Info ── -->
+      <section class="col-span-12 lg:col-span-8 bg-surface-container-low border border-outline-variant rounded-xl overflow-hidden flex flex-col" style="height:380px;">
+        <div class="p-4 border-b border-outline-variant flex justify-between items-center bg-surface-container/30">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-secondary text-lg">schedule</span>
+            <h2 class="text-label-sm text-on-surface tracking-widest uppercase">Trading Window</h2>
+          </div>
+          <span id="tradingBadge" class="text-[10px] font-bold px-2 py-0.5 rounded badge-closed">CALCULATING...</span>
+        </div>
+
+        <div class="flex-1 p-6 flex flex-col justify-between">
+          <!-- Timeline bar -->
+          <div>
+            <div class="flex justify-between text-[10px] text-on-surface-variant mb-2">
+              <span>09:00</span><span>11:00</span><span>13:00</span><span>15:00</span><span>17:00</span>
+            </div>
+            <div class="relative h-3 bg-surface-container rounded-full overflow-hidden">
+              <div class="absolute inset-y-0 left-[25%] right-[37.5%] bg-primary/30 rounded-full"></div>
+              <div id="timeMarker" class="absolute inset-y-0 w-0.5 bg-secondary rounded-full transition-all duration-1000" style="left:50%"></div>
+            </div>
+            <div class="flex justify-between text-[10px] mt-1">
+              <span class="text-on-surface-variant/50">Pre-market</span>
+              <span class="text-primary/70">← NEPSE Active Window →</span>
+              <span class="text-on-surface-variant/50">After-hours</span>
+            </div>
+          </div>
+
+          <!-- Stats grid -->
+          <div class="grid grid-cols-2 gap-4 mt-6">
+            <div class="bg-surface-container rounded-xl p-4 border border-outline-variant">
+              <p class="text-[10px] text-on-surface-variant uppercase tracking-wider mb-1">Last Check Result</p>
+              <p id="lastCheckMsg" class="text-body-md text-on-surface font-medium truncate">—</p>
+              <p id="lastCheckTime" class="text-[10px] text-on-surface-variant mt-1">—</p>
+            </div>
+            <div class="bg-surface-container rounded-xl p-4 border border-outline-variant">
+              <p class="text-[10px] text-on-surface-variant uppercase tracking-wider mb-1">Next Check</p>
+              <p class="text-body-md text-on-surface font-medium">Every 5 minutes</p>
+              <p class="text-[10px] text-on-surface-variant mt-1">During trading hours (11:00–15:00)</p>
+            </div>
+            <div class="bg-surface-container rounded-xl p-4 border border-outline-variant">
+              <p class="text-[10px] text-on-surface-variant uppercase tracking-wider mb-1">Alert Threshold</p>
+              <p class="text-body-md text-on-surface font-medium">3 consecutive failures</p>
+              <p class="text-[10px] text-on-surface-variant mt-1">Email sent via Gmail SMTP</p>
+            </div>
+            <div class="bg-surface-container rounded-xl p-4 border border-outline-variant">
+              <p class="text-[10px] text-on-surface-variant uppercase tracking-wider mb-1">Current Fail Streak</p>
+              <p id="failStreak" class="text-body-md font-medium text-primary">—</p>
+              <p class="text-[10px] text-on-surface-variant mt-1">Resets on success</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Activity Log ── -->
+      <section class="col-span-12 bg-surface-container-low border border-outline-variant rounded-xl overflow-hidden flex flex-col">
+        <div class="p-5 border-b border-outline-variant flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-surface-container/30">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-on-surface-variant text-lg">list_alt</span>
+            <h2 class="text-label-sm text-on-surface tracking-widest uppercase">Activity Log</h2>
+            <span id="totalBadge" class="ml-2 px-2 py-0.5 bg-surface-variant rounded text-[10px] font-bold text-on-surface-variant">— TOTAL</span>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto custom-scrollbar">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-surface-container/50 border-b border-outline-variant">
+                <th class="px-6 py-3 text-label-sm text-on-surface-variant uppercase tracking-wider w-40">Timestamp</th>
+                <th class="px-6 py-3 text-label-sm text-on-surface-variant uppercase tracking-wider w-28">Type</th>
+                <th class="px-6 py-3 text-label-sm text-on-surface-variant uppercase tracking-wider">Message</th>
+              </tr>
+            </thead>
+            <tbody id="logTableBody" class="divide-y divide-outline-variant/30">
+              <tr>
+                <td colspan="3" class="px-6 py-8 text-center text-on-surface-variant text-body-md">Loading logs...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="p-4 border-t border-outline-variant flex justify-between items-center bg-surface-container/20">
+          <div class="text-[11px] text-on-surface-variant">
+            SHOWING <span id="showingCount" class="text-on-surface">—</span> ENTRIES
+          </div>
+          <div class="text-[11px] text-on-surface-variant">
+            Auto-refreshes every <span class="text-on-surface">5 seconds</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<!-- Atmospheric bg -->
+<div class="fixed inset-0 pointer-events-none overflow-hidden z-[-1]">
+  <div class="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-secondary/5 blur-[120px] rounded-full"></div>
+  <div class="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 blur-[120px] rounded-full"></div>
+</div>
+
+<script>
+  // ── State ──
+  let allLogs = [];
+  let currentFilter = 'all';
+  let searchQuery = '';
+
+  // ── Fetch & render ──
+  async function fetchStatus() {
+    try {
+      const res = await fetch('/api/status');
+      const data = await res.json();
+      renderStatus(data);
+    } catch (e) {
+      console.error('Failed to fetch status:', e);
+    }
+  }
+
+  function renderStatus(data) {
+    allLogs = data.logs || [];
+
+    // ── After-market banner (safe) ──
+    try {
+      let banner = document.getElementById('afterMarketBanner');
+      if (data.is_after_market) {
+        if (!banner) {
+          banner = document.createElement('div');
+          banner.id = 'afterMarketBanner';
+          banner.className = 'col-span-12 flex items-center gap-3 px-5 py-3 rounded-xl border border-outline-variant bg-surface-container text-on-surface-variant text-body-md';
+          banner.innerHTML = '<span class="material-symbols-outlined text-lg text-secondary">info</span><span>Market closed for today (15:00 NPT). Monitor resumes at <strong class="text-on-surface">11:00 NPT</strong> tomorrow. Last session: ' + data.current_time + '</span>';
+          const grid = document.getElementById('mainGrid');
+          if (grid) grid.insertBefore(banner, grid.firstChild);
+        }
+      } else if (banner) {
+        banner.remove();
+      }
+    } catch(e) { console.warn('Banner error:', e); }
+
+    // ── Live chip ──
+    const liveChip = document.getElementById('liveChip');
+    const isLive = data.status === 'live';
+    liveChip.innerHTML = isLive
+      ? `<span class="relative flex h-2 w-2"><span class="pulse-glow absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span></span><span class="text-[10px] font-bold text-primary">LIVE</span>`
+      : `<span class="w-2 h-2 rounded-full status-dot-${data.status} inline-block"></span><span class="text-[10px] font-bold text-on-surface-variant ml-1.5">${data.status.toUpperCase()}</span>`;
+
+    // ── Fail count ──
+    document.getElementById('failCountDisplay').textContent = data.fail_count;
+
+    // ── Status badge ──
+    const badge = document.getElementById('statusBadge');
+    const dot   = document.getElementById('statusDot');
+    const lbl   = document.getElementById('statusLabel');
+    badge.className = `inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-widest badge-${data.status}`;
+    dot.className   = `w-1.5 h-1.5 rounded-full status-dot-${data.status}`;
+    lbl.textContent = data.status_label;
+
+    // ── Stats ──
+    document.getElementById('uptimeDisplay').textContent  = data.uptime + '%';
+    document.getElementById('successDisplay').textContent = data.total_successes;
+    document.getElementById('totalDisplay').textContent   = data.total_events;
+    document.getElementById('totalBadge').textContent     = data.total_events + ' TOTAL';
+
+    // ── Trading badge ──
+    const tradingBadge = document.getElementById('tradingBadge');
+    if (data.is_trading_hours) {
+      tradingBadge.textContent = 'MARKET OPEN';
+      tradingBadge.className = 'text-[10px] font-bold px-2 py-0.5 rounded badge-live';
+    } else if (data.is_after_market) {
+      tradingBadge.textContent = 'SESSION ENDED';
+      tradingBadge.className = 'text-[10px] font-bold px-2 py-0.5 rounded badge-closed';
+    } else {
+      tradingBadge.textContent = 'PRE-MARKET';
+      tradingBadge.className = 'text-[10px] font-bold px-2 py-0.5 rounded badge-closed';
+    }
+
+    // ── Time marker (09:00–17:00 = 480 min from minute 540) ──
+    // Use Nepal time from server so it's always correct
+    const [datePart, timePart] = data.current_time.split(' ');
+    const [hh, mm] = timePart.split(':').map(Number);
+    const totalMins = hh * 60 + mm;
+    const pct = Math.min(100, Math.max(0, ((totalMins - 540) / 480) * 100));
+    document.getElementById('timeMarker').style.left = pct + '%';
+
+    // ── Last check info ──
+    if (data.latest && data.latest.timestamp) {
+      const ts = new Date(data.latest.timestamp);
+      const msgEl  = document.getElementById('lastCheckMsg');
+      const timeEl = document.getElementById('lastCheckTime');
+      msgEl.textContent  = data.latest.message || '—';
+      msgEl.className    = 'text-body-md font-medium truncate ' +
+        (data.latest.type === 'success' ? 'text-primary' :
+         data.latest.type === 'failure' || data.latest.type === 'alert' ? 'text-red-400' : 'text-on-surface');
+      timeEl.textContent = formatTime(ts);
+    }
+
+    // ── Fail streak ──
+    const streak = document.getElementById('failStreak');
+    streak.textContent = data.fail_count + ' / 3';
+    streak.className = 'text-body-md font-medium ' +
+      (data.fail_count >= 3 ? 'text-red-400' : data.fail_count > 0 ? 'text-yellow-400' : 'text-primary');
+
+    // ── Mini bar chart — use chart_logs (chronological, up to 30) ──
+    renderMiniChart(data.chart_logs || []);
+
+    // ── Log table ──
+    renderTable();
+  }
+
+  function renderMiniChart(logs) {
+    const chart = document.getElementById('miniChart');
+    if (!logs.length) { chart.innerHTML = ''; return; }
+    chart.innerHTML = logs.map(l => {
+      const color = l.type === 'success' ? 'bg-primary/70'
+                  : l.type === 'failure' ? 'bg-red-500/70'
+                  : l.type === 'alert'   ? 'bg-red-500'
+                  : 'bg-surface-variant';
+      const h = l.type === 'success' ? '100%' : l.type === 'failure' || l.type === 'alert' ? '60%' : '30%';
+      const title = `${l.type}: ${formatTime(new Date(l.timestamp))}`;
+      return `<div class="flex-1 ${color} rounded-t transition-all hover:opacity-100 opacity-80 cursor-default" style="height:${h}" title="${title}"></div>`;
+    }).join('');
+  }
+
+  function renderTable() {
+    const tbody = document.getElementById('logTableBody');
+    console.log('renderTable: allLogs count =', allLogs.length, 'filter =', currentFilter);
+    let filtered = allLogs;
+
+    // Filter by type
+    if (currentFilter !== 'all') {
+      filtered = filtered.filter(l => l.type === currentFilter);
+    }
+
+    // Filter by search
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      filtered = filtered.filter(l =>
+        (l.message || '').toLowerCase().includes(q) ||
+        (l.type || '').toLowerCase().includes(q) ||
+        (l.timestamp || '').toLowerCase().includes(q)
+      );
+    }
+
+    document.getElementById('showingCount').textContent = filtered.length;
+
+    if (!filtered.length) {
+      tbody.innerHTML = `<tr><td colspan="3" class="px-6 py-10 text-center text-on-surface-variant text-body-md">No activity logged yet today. Monitor runs 11:00–15:00 NPT.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = filtered.map((l, i) => {
+      const ts = new Date(l.timestamp);
+      const typeColor = l.type === 'success' ? 'text-primary' : l.type === 'failure' || l.type === 'alert' ? 'text-red-400' : 'text-on-surface-variant';
+      const dotColor = l.type === 'success' ? 'bg-primary' : l.type === 'failure' || l.type === 'alert' ? 'bg-red-400' : 'bg-surface-variant';
+      const badgeCls = l.type === 'success' ? 'badge-live' : l.type === 'failure' || l.type === 'alert' ? 'badge-down' : l.type === 'closed' ? 'badge-closed' : 'badge-warning';
+
+      let msg = l.message || '—';
+      if (searchQuery) {
+        const re = new RegExp(`(${searchQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+        msg = msg.replace(re, '<mark>$1</mark>');
+      }
+
+      return `
+        <tr class="row-hover fade-in group" style="animation-delay:${i * 0.02}s">
+          <td class="px-6 py-3 font-data-mono text-[12px] text-on-surface/80 whitespace-nowrap">${formatTime(ts)}</td>
+          <td class="px-6 py-3">
+            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-bold uppercase ${badgeCls}">
+              <span class="w-1 h-1 rounded-full ${dotColor}"></span>
+              ${l.type}
+            </span>
+          </td>
+          <td class="px-6 py-3 text-body-md text-on-surface-variant">${msg}</td>
+        </tr>`;
+    }).join('');
+  }
+
+  // ── Helpers ──
+  function formatTime(d) {
+    if (!(d instanceof Date) || isNaN(d)) return '—';
+    return d.toLocaleString('en-IN', { timeZone: 'Asia/Kathmandu', hour12: false,
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  }
+
+  // ── Filter buttons ──
+  function setFilter(f) {
+    currentFilter = f;
+    ['all', 'failure', 'success', 'closed'].forEach(id => {
+      const btn = document.getElementById('btn-' + id);
+      if (!btn) return;
+      btn.classList.toggle('bg-surface-variant', id === f);
+      btn.classList.toggle('text-on-surface', id === f);
+      btn.classList.toggle('text-on-surface-variant', id !== f);
+    });
+    renderTable();
+  }
+
+  // ── Search ──
+  document.getElementById('searchInput').addEventListener('input', e => {
+    searchQuery = e.target.value.trim();
+    renderTable();
+  });
+
+  // ── Clock ──
+  function updateClock() {
+    const now = new Date();
+    const str = now.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kathmandu', hour12: false });
+    document.getElementById('clockDisplay').textContent = str;
+  }
+
+  // ── Boot ──
+  fetchStatus();
+  updateClock();
+  setInterval(fetchStatus, 5000);
+  setInterval(updateClock, 1000);
+</script>
+</body>
+</html>
