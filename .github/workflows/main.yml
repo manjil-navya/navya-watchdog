@@ -1,0 +1,51 @@
+name: NEPSE Market Monitor
+
+on:
+  schedule:
+    - cron: '15,20,25,30,35,40,45,50,55 5 * * 1-5'
+    - cron: '0,5,10,15,20,25,30 6 * * 1-5'
+    - cron: '0,5,10,15,20,25,30,35,40,45,50,55 7 * * 1-5'
+    - cron: '0,5,10,15,20,25,30,35,40,45,50,55 8 * * 1-5'
+    - cron: '0,5,10,15,20,25,30 9 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install playwright python-dotenv pytz
+          playwright install chromium
+          playwright install-deps chromium
+
+      - name: Run market monitor
+        env:
+          NAVYA_EMAIL: ${{ secrets.NAVYA_EMAIL }}
+          NAVYA_PASS: ${{ secrets.NAVYA_PASS }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASS: ${{ secrets.GMAIL_APP_PASS }}
+          ALERT_RECEIVER: ${{ secrets.ALERT_RECEIVER }}
+        run: python monitor.py
+
+      - name: Commit updated log files
+        run: |
+          git config user.name "navya-watchdog[bot]"
+          git config user.email "watchdog@navya.bot"
+          git add monitor_log.json fail_count.txt
+          git diff --staged --quiet || git commit -m "chore: monitor run $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push
