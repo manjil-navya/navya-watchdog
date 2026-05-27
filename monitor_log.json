@@ -490,5 +490,17 @@
     "type": "success",
     "message": "Market is confirmed LIVE. Resetting counter.",
     "details": {}
+  },
+  {
+    "timestamp": "2026-05-27T13:15:32.859503+05:45",
+    "type": "failure",
+    "message": "Check FAILED (2/3): Process Error: Page.goto: net::ERR_NAME_NOT_RESOLVED at https://navyaadvisors.com/login\nCall log:\n  - navigating to \"https://navyaadvisors.com/login\", waiting until \"networkidle\"\n",
+    "details": {}
+  },
+  {
+    "timestamp": "2026-05-27T13:20:16.154065+05:45",
+    "type": "success",
+    "message": "Market is confirmed LIVE. Resetting counter.",
+    "details": {}
   }
 ]
