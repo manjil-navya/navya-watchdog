@@ -700,5 +700,11 @@
     "type": "failure",
     "message": "Check FAILED (2/3): Keyword 'Live Market' not found.",
     "details": {}
+  },
+  {
+    "timestamp": "2026-05-28T11:10:19.124810+05:45",
+    "type": "failure",
+    "message": "Check FAILED (3/3): Keyword 'Live Market' not found.",
+    "details": {}
   }
 ]
