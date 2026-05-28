@@ -822,5 +822,11 @@
     "type": "failure",
     "message": "Check FAILED (21/3): Keyword 'Live Market' not found.",
     "details": {}
+  },
+  {
+    "timestamp": "2026-05-28T12:45:15.235436+05:45",
+    "type": "failure",
+    "message": "Check FAILED (22/3): Keyword 'Live Market' not found.",
+    "details": {}
   }
 ]
