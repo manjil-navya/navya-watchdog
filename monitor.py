@@ -103,18 +103,48 @@ def sync_to_github(logs, fail_count):
 
 # ── Email alert ─────────────────────────────────────────────────────
 
+ALERT_COOLDOWN_MINUTES = 60  # Only re-alert once per hour max
+_last_alert_sent: datetime | None = None
+
 def send_alert(subject, body):
+    global _last_alert_sent
+
+    gmail_user = os.getenv("GMAIL_USER")
+    gmail_pass = os.getenv("GMAIL_APP_PASS")
+    alert_to   = os.getenv("ALERT_RECEIVER")
+
+    # Guard: check env vars are set
+    if not gmail_user or not gmail_pass or not alert_to:
+        print(f"⚠ Email not sent — missing env vars: "
+              f"GMAIL_USER={'set' if gmail_user else 'MISSING'}, "
+              f"GMAIL_APP_PASS={'set' if gmail_pass else 'MISSING'}, "
+              f"ALERT_RECEIVER={'set' if alert_to else 'MISSING'}")
+        return
+
+    # Throttle: don't send more than once per ALERT_COOLDOWN_MINUTES
+    now = datetime.now(NEPAL_TZ)
+    if _last_alert_sent:
+        minutes_since = (now - _last_alert_sent).total_seconds() / 60
+        if minutes_since < ALERT_COOLDOWN_MINUTES:
+            print(f"⏳ Alert throttled — last sent {minutes_since:.0f} min ago (cooldown: {ALERT_COOLDOWN_MINUTES} min)")
+            return
+
     msg = MIMEText(body)
     msg['Subject'] = f"🚨 {subject}"
-    msg['From']    = os.getenv("GMAIL_USER")
-    msg['To']      = os.getenv("ALERT_RECEIVER")
+    msg['From']    = gmail_user
+    msg['To']      = alert_to
     try:
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as s:
-            s.login(os.getenv("GMAIL_USER"), os.getenv("GMAIL_APP_PASS"))
-            s.sendmail(msg['From'], [msg['To']], msg.as_string())
-        print("Email alert sent.")
+            s.login(gmail_user, gmail_pass)
+            s.sendmail(gmail_user, [alert_to], msg.as_string())
+        _last_alert_sent = now
+        print(f"✓ Email alert sent to {alert_to}")
+    except smtplib.SMTPAuthenticationError:
+        print("✗ SMTP Auth failed — check GMAIL_APP_PASS is a 16-char App Password, not your Gmail login password")
+    except smtplib.SMTPException as e:
+        print(f"✗ SMTP Error: {e}")
     except Exception as e:
-        print(f"SMTP Error: {e}")
+        print(f"✗ Unexpected email error: {e}")
 
 
 # ── Logging ──────────────────────────────────────────────────────────
@@ -185,9 +215,9 @@ def check_market():
         logs = log_event(logs, "failure", msg)
         sync_to_github(logs, current_fails)
 
-        if current_fails == MAX_FAILURES:
+        if current_fails >= MAX_FAILURES:
             send_alert("CRITICAL: Market Feed Down",
-                       f"Monitor failed {MAX_FAILURES} times.\n\nReason: {error_detail}")
+                       f"Monitor failed {current_fails} times in a row.\n\nReason: {error_detail}")
             logs = log_event(logs, "alert", "Email alert sent.", {"failures": current_fails})
             sync_to_github(logs, current_fails)
 
