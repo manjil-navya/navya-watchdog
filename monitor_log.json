@@ -1150,5 +1150,11 @@
     "type": "failure",
     "message": "Check FAILED (2/3): Process Error: Page.fill: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\"input[name=\\\"email\\\"]\")\n",
     "details": {}
+  },
+  {
+    "timestamp": "2026-06-01T12:05:19.163214+05:45",
+    "type": "success",
+    "message": "Market is confirmed LIVE. Resetting counter.",
+    "details": {}
   }
 ]
