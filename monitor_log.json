@@ -1354,5 +1354,11 @@
     "type": "success",
     "message": "Market is confirmed LIVE. Resetting counter.",
     "details": {}
+  },
+  {
+    "timestamp": "2026-06-01T15:00:01.773742+05:45",
+    "type": "closed",
+    "message": "Outside monitoring hours (15:00:01). Market closed.",
+    "details": {}
   }
 ]
