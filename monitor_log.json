@@ -2428,5 +2428,11 @@
     "type": "failure",
     "message": "Check FAILED (1/3): Keyword 'Live Market' not found.",
     "details": {}
+  },
+  {
+    "timestamp": "2026-06-05T11:05:19.047117+05:45",
+    "type": "success",
+    "message": "Market is confirmed LIVE. Resetting counter.",
+    "details": {}
   }
 ]
