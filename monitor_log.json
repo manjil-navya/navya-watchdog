@@ -1,11 +1,5 @@
 [
   {
-    "timestamp": "2026-05-27T09:10:00.469720+05:45",
-    "type": "closed",
-    "message": "Outside monitoring hours (09:10:00). Market closed.",
-    "details": {}
-  },
-  {
     "timestamp": "2026-05-27T09:15:01.532738+05:45",
     "type": "closed",
     "message": "Outside monitoring hours (09:15:01). Market closed.",
@@ -3003,6 +2997,12 @@
   },
   {
     "timestamp": "2026-06-09T14:45:21.013857+05:45",
+    "type": "success",
+    "message": "Market is confirmed LIVE. Resetting counter.",
+    "details": {}
+  },
+  {
+    "timestamp": "2026-06-09T14:50:20.831725+05:45",
     "type": "success",
     "message": "Market is confirmed LIVE. Resetting counter.",
     "details": {}
