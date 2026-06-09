@@ -1,11 +1,5 @@
 [
   {
-    "timestamp": "2026-05-26T17:28:50.328880+05:45",
-    "type": "closed",
-    "message": "Outside monitoring hours (17:28:50). Market closed.",
-    "details": {}
-  },
-  {
     "timestamp": "2026-05-26T17:30:45.380341+05:45",
     "type": "closed",
     "message": "Outside monitoring hours (17:30:45). Market closed.",
@@ -3005,6 +2999,12 @@
     "timestamp": "2026-06-09T14:35:33.436836+05:45",
     "type": "failure",
     "message": "Check FAILED (1/3): Process Error: Page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"https://navyaadvisors.com/login\", waiting until \"networkidle\"\n",
+    "details": {}
+  },
+  {
+    "timestamp": "2026-06-09T14:40:25.124383+05:45",
+    "type": "success",
+    "message": "Market is confirmed LIVE. Resetting counter.",
     "details": {}
   }
 ]
