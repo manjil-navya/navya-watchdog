@@ -722,9 +722,9 @@
     "details": {}
   },
   {
-    "timestamp": "2026-06-15T12:29:50.932191+05:45",
-    "type": "failure",
-    "message": "Check FAILED (2/3): Process Error: Page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"https://navyaadvisors.com/login\", waiting until \"networkidle\"\n",
+    "timestamp": "2026-06-15T12:30:54.218235+05:45",
+    "type": "success",
+    "message": "Market is confirmed LIVE. Resetting counter.",
     "details": {}
   }
 ]
