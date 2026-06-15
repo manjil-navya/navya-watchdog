@@ -634,5 +634,13 @@
     "type": "failure",
     "message": "Check FAILED (3/3): Keyword 'Live Market' not found.",
     "details": {}
+  },
+  {
+    "timestamp": "2026-06-15T11:10:28.276637+05:45",
+    "type": "alert",
+    "message": "Email alert sent.",
+    "details": {
+      "failures": 3
+    }
   }
 ]
