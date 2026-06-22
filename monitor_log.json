@@ -2604,5 +2604,11 @@
     "type": "closed",
     "message": "Outside monitoring hours (15:20:01). Market closed.",
     "details": {}
+  },
+  {
+    "timestamp": "2026-06-22T15:25:01.292979+05:45",
+    "type": "closed",
+    "message": "Outside monitoring hours (15:25:01). Market closed.",
+    "details": {}
   }
 ]
