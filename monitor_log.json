@@ -1,11 +1,5 @@
 [
   {
-    "timestamp": "2026-06-18T14:35:20.251519+05:45",
-    "type": "success",
-    "message": "Market is confirmed LIVE. Resetting counter.",
-    "details": {}
-  },
-  {
     "timestamp": "2026-06-18T14:40:33.008151+05:45",
     "type": "failure",
     "message": "Check FAILED (1/3): Process Error: Page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"https://navyaadvisors.com/login\", waiting until \"networkidle\"\n",
@@ -2995,6 +2989,12 @@
   },
   {
     "timestamp": "2026-07-02T13:05:20.780134+05:45",
+    "type": "success",
+    "message": "Market is confirmed LIVE. Resetting counter.",
+    "details": {}
+  },
+  {
+    "timestamp": "2026-07-02T13:10:25.728118+05:45",
     "type": "success",
     "message": "Market is confirmed LIVE. Resetting counter.",
     "details": {}
