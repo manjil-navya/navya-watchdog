@@ -1,11 +1,5 @@
 [
   {
-    "timestamp": "2026-07-01T14:50:16.978904+05:45",
-    "type": "success",
-    "message": "Market is confirmed LIVE. Resetting counter.",
-    "details": {}
-  },
-  {
     "timestamp": "2026-07-01T14:55:31.676123+05:45",
     "type": "failure",
     "message": "Check FAILED (1/3): Process Error: Page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"https://navyaadvisors.com/login\", waiting until \"networkidle\"\n",
@@ -3008,5 +3002,11 @@
     "details": {
       "failures": 7
     }
+  },
+  {
+    "timestamp": "2026-07-14T11:35:20.577493+05:45",
+    "type": "failure",
+    "message": "Check FAILED (8/3): Keyword 'Live Market' not found.",
+    "details": {}
   }
 ]
