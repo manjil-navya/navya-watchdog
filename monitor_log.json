@@ -1,11 +1,5 @@
 [
   {
-    "timestamp": "2026-07-02T14:05:19.136297+05:45",
-    "type": "success",
-    "message": "Market is confirmed LIVE. Resetting counter.",
-    "details": {}
-  },
-  {
     "timestamp": "2026-07-02T14:10:19.606824+05:45",
     "type": "success",
     "message": "Market is confirmed LIVE. Resetting counter.",
@@ -3013,6 +3007,12 @@
     "timestamp": "2026-07-15T11:00:19.017631+05:45",
     "type": "failure",
     "message": "Check FAILED (1/3): Keyword 'Live Market' not found.",
+    "details": {}
+  },
+  {
+    "timestamp": "2026-07-15T11:05:18.672477+05:45",
+    "type": "success",
+    "message": "Market is confirmed LIVE. Resetting counter.",
     "details": {}
   }
 ]
