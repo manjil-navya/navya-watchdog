@@ -1,11 +1,5 @@
 [
   {
-    "timestamp": "2026-07-03T13:50:17.855522+05:45",
-    "type": "success",
-    "message": "Market is confirmed LIVE. Resetting counter.",
-    "details": {}
-  },
-  {
     "timestamp": "2026-07-03T13:55:19.506531+05:45",
     "type": "success",
     "message": "Market is confirmed LIVE. Resetting counter.",
@@ -3013,6 +3007,12 @@
     "timestamp": "2026-07-16T11:30:02.771115+05:45",
     "type": "failure",
     "message": "Check FAILED (1/3): Process Error: Page.goto: net::ERR_NETWORK_CHANGED at https://navyaadvisors.com/login\nCall log:\n  - navigating to \"https://navyaadvisors.com/login\", waiting until \"networkidle\"\n",
+    "details": {}
+  },
+  {
+    "timestamp": "2026-07-16T11:35:16.718549+05:45",
+    "type": "success",
+    "message": "Market is confirmed LIVE. Resetting counter.",
     "details": {}
   }
 ]
