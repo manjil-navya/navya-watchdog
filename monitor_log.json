@@ -1,11 +1,5 @@
 [
   {
-    "timestamp": "2026-07-15T15:55:02.139545+05:45",
-    "type": "closed",
-    "message": "Outside monitoring hours (15:55:02). Market closed.",
-    "details": {}
-  },
-  {
     "timestamp": "2026-07-16T11:00:17.428156+05:45",
     "type": "failure",
     "message": "Check FAILED (1/3): Keyword 'Live Market' not found.",
@@ -2997,6 +2991,12 @@
     "timestamp": "2026-07-29T15:40:02.156655+05:45",
     "type": "closed",
     "message": "Outside monitoring hours (15:40:02). Market closed.",
+    "details": {}
+  },
+  {
+    "timestamp": "2026-07-29T15:45:01.853086+05:45",
+    "type": "closed",
+    "message": "Outside monitoring hours (15:45:01). Market closed.",
     "details": {}
   }
 ]
