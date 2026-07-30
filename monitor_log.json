@@ -1,11 +1,5 @@
 [
   {
-    "timestamp": "2026-07-16T15:20:02.232602+05:45",
-    "type": "closed",
-    "message": "Outside monitoring hours (15:20:02). Market closed.",
-    "details": {}
-  },
-  {
     "timestamp": "2026-07-16T15:25:02.008183+05:45",
     "type": "closed",
     "message": "Outside monitoring hours (15:25:02). Market closed.",
@@ -2997,6 +2991,12 @@
     "timestamp": "2026-07-30T15:10:02.022018+05:45",
     "type": "closed",
     "message": "Outside monitoring hours (15:10:02). Market closed.",
+    "details": {}
+  },
+  {
+    "timestamp": "2026-07-30T15:15:02.205991+05:45",
+    "type": "closed",
+    "message": "Outside monitoring hours (15:15:02). Market closed.",
     "details": {}
   }
 ]
