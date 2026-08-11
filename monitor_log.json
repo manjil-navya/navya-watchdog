@@ -1,11 +1,5 @@
 [
   {
-    "timestamp": "2026-07-29T12:30:51.290938+05:45",
-    "type": "failure",
-    "message": "Check FAILED (1/3): Process Error: Page.wait_for_selector: Timeout 45000ms exceeded.\nCall log:\n  - waiting for locator(\"text=\\\"NEPSE\\\"\") to be visible\n",
-    "details": {}
-  },
-  {
     "timestamp": "2026-07-29T12:35:15.368590+05:45",
     "type": "success",
     "message": "Market is confirmed LIVE. Resetting counter.",
@@ -3043,6 +3037,12 @@
     "timestamp": "2026-08-11T15:25:01.361000+05:45",
     "type": "closed",
     "message": "Outside monitoring hours (15:25:01). Market closed.",
+    "details": {}
+  },
+  {
+    "timestamp": "2026-08-11T15:30:01.489554+05:45",
+    "type": "closed",
+    "message": "Outside monitoring hours (15:30:01). Market closed.",
     "details": {}
   }
 ]
