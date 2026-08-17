@@ -1,11 +1,5 @@
 [
   {
-    "timestamp": "2026-08-03T13:00:15.177328+05:45",
-    "type": "success",
-    "message": "Market is confirmed LIVE. Resetting counter.",
-    "details": {}
-  },
-  {
     "timestamp": "2026-08-03T13:05:48.584207+05:45",
     "type": "failure",
     "message": "Check FAILED (1/3): Process Error: Page.wait_for_selector: Timeout 45000ms exceeded.\nCall log:\n  - waiting for locator(\"text=\\\"NEPSE\\\"\") to be visible\n",
@@ -3043,6 +3037,12 @@
     "timestamp": "2026-08-17T11:00:20.285522+05:45",
     "type": "failure",
     "message": "Check FAILED (1/3): Keyword 'Live Market' not found.",
+    "details": {}
+  },
+  {
+    "timestamp": "2026-08-17T11:05:17.250879+05:45",
+    "type": "success",
+    "message": "Market is confirmed LIVE. Resetting counter.",
     "details": {}
   }
 ]
