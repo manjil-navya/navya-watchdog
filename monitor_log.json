@@ -1,11 +1,5 @@
 [
   {
-    "timestamp": "2026-08-07T11:00:17.834978+05:45",
-    "type": "failure",
-    "message": "Check FAILED (18/3): Keyword 'Live Market' not found.",
-    "details": {}
-  },
-  {
     "timestamp": "2026-08-07T11:00:26.130988+05:45",
     "type": "alert",
     "message": "Email alert sent.",
@@ -3013,6 +3007,12 @@
     "timestamp": "2026-08-20T15:00:01.322127+05:45",
     "type": "closed",
     "message": "Outside monitoring hours (15:00:01). Market closed.",
+    "details": {}
+  },
+  {
+    "timestamp": "2026-08-20T15:05:01.523941+05:45",
+    "type": "closed",
+    "message": "Outside monitoring hours (15:05:01). Market closed.",
     "details": {}
   }
 ]
