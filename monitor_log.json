@@ -1,11 +1,5 @@
 [
   {
-    "timestamp": "2026-08-07T14:50:15.589723+05:45",
-    "type": "success",
-    "message": "Market is confirmed LIVE. Resetting counter.",
-    "details": {}
-  },
-  {
     "timestamp": "2026-08-07T14:55:14.754161+05:45",
     "type": "success",
     "message": "Market is confirmed LIVE. Resetting counter.",
@@ -3015,6 +3009,12 @@
   },
   {
     "timestamp": "2026-08-21T13:25:18.880211+05:45",
+    "type": "success",
+    "message": "Market is confirmed LIVE. Resetting counter.",
+    "details": {}
+  },
+  {
+    "timestamp": "2026-08-21T13:30:18.542573+05:45",
     "type": "success",
     "message": "Market is confirmed LIVE. Resetting counter.",
     "details": {}
