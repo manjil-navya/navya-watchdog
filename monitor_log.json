@@ -1,23 +1,5 @@
 [
   {
-    "timestamp": "2026-08-13T13:45:20.151778+05:45",
-    "type": "success",
-    "message": "Market is confirmed LIVE. Resetting counter.",
-    "details": {}
-  },
-  {
-    "timestamp": "2026-08-13T13:50:20.485377+05:45",
-    "type": "success",
-    "message": "Market is confirmed LIVE. Resetting counter.",
-    "details": {}
-  },
-  {
-    "timestamp": "2026-08-13T13:55:19.544029+05:45",
-    "type": "success",
-    "message": "Market is confirmed LIVE. Resetting counter.",
-    "details": {}
-  },
-  {
     "timestamp": "2026-08-13T14:00:20.320549+05:45",
     "type": "success",
     "message": "Market is confirmed LIVE. Resetting counter.",
@@ -3001,6 +2983,24 @@
   },
   {
     "timestamp": "2026-08-27T14:25:17.007423+05:45",
+    "type": "success",
+    "message": "Market is confirmed LIVE. Resetting counter.",
+    "details": {}
+  },
+  {
+    "timestamp": "2026-08-27T14:35:40.325052+05:45",
+    "type": "success",
+    "message": "Market is confirmed LIVE. Resetting counter.",
+    "details": {}
+  },
+  {
+    "timestamp": "2026-08-27T14:35:41.127737+05:45",
+    "type": "failure",
+    "message": "Check FAILED (1/3): Process Error: Page.goto: net::ERR_NAME_NOT_RESOLVED at https://navyaadvisors.com/login\nCall log:\n  - navigating to \"https://navyaadvisors.com/login\", waiting until \"networkidle\"\n",
+    "details": {}
+  },
+  {
+    "timestamp": "2026-08-27T14:40:16.258137+05:45",
     "type": "success",
     "message": "Market is confirmed LIVE. Resetting counter.",
     "details": {}
